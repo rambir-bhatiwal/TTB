@@ -1,0 +1,5 @@
+# this file is only for local uses means somethings which we need to just do on local machine only
+services:
+  app:
+    environment:
+      XDEBUG_MODE: debug
