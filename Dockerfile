@@ -24,8 +24,15 @@ RUN docker-php-ext-install \
 # create tmp dir 
 RUN mkdir -p /tmp && chmod 777 /tmp
 
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
+
+# CMD sh -c "composer install && npm install && npm run dev -- --host 0.0.0.0 & php-fpm"
+CMD ["php-fpm"]
