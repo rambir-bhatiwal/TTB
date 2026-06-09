@@ -2,19 +2,31 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Inertia\Middleware;
 
-class HandleInertiaRequests
+class HandleInertiaRequests extends Middleware
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
+     * The root template loaded on the first page visit.
      */
-    public function handle(Request $request, Closure $next): Response
+    protected $rootView = 'app';
+
+    /**
+     * Determine the current asset version.
+     */
+    public function version(Request $request): ?string
     {
-        return $next($request);
+        return parent::version($request);
+    }
+
+    /**
+     * Define the props that are shared by default.
+     */
+    public function share(Request $request): array
+    {
+        return [
+            ...parent::share($request),
+        ];
     }
 }

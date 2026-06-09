@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { router, usePage } from '@inertiajs/react';
 
 import GuestLayout from '../../Layouts/GuestLayout';
@@ -6,12 +6,10 @@ import Button from '../../Components/Button';
 import Input from '../../Components/Input';
 
 export default function Login() {
-    const { flash } = usePage();
-
-    console.log('Flash message:', flash);
+    const  flash  = usePage();
 
     const [formData, setFormData] = useState({
-        email: 'hlaksdf@ldkjf.lakjdf',
+        email: 'a@a.a',
         password: 'adsfa',
     });
 
@@ -22,6 +20,8 @@ export default function Login() {
             ...previousData,
             [name]: value,
         }));
+        console.log(name, value, 'handleInputChange');
+        flash.props.errors.name = ''; // Clear the error message but it's an anti-pattern to mutate props directly. Consider using a state variable for errors instead.
     }
 
     function handleSubmit(e) {
@@ -60,7 +60,9 @@ export default function Login() {
                         }}
                     />
 
-                    {/* <p>{flash.email}</p> */}
+                    {/* <p>{errors.email}</p> */}
+                    {/* <p>{errors.email || flash.props.errors.email}</p> */}
+                    <p>{ flash.props.errors.email}</p>
 
                     <Input
                         type="password"
@@ -71,7 +73,9 @@ export default function Login() {
                         required
                     />
 
-                    {/* <p>{flash.password}</p> */}
+                    {/* <p>{errors.password}</p> */}
+                    {/* <p>{errors.password || flash.props.errors.password}</p> */}
+                    <p>{ flash.props.errors.password}</p>
 
                     <Button type="submit">
                         Login
